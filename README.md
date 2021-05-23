@@ -17,3 +17,11 @@
 4.写一段代码，使用 HttpClient 或 OkHttp 访问  http://localhost:8801 ，代码提交到 GitHub。
 
 =========week02 end=====
+
+=========week03 begin=====
+
+1.（必做）整合你上次作业的 httpclient/okhttp；
+
+3.（必做）实现过滤器。
+
+=========week03 end=====
