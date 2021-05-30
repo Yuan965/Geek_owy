@@ -5,6 +5,8 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -23,9 +25,10 @@ public class ThreadWorkMain {
     	long start=System.currentTimeMillis();
 //    	joinMethod(); // 使用join方式异步执行
 //    	countDownLatchMethod(); // 使用CountDownLatch异步执行
-    	cyclicBarrierMethod(); // 使用CyclicBarrier异步执行
+//    	cyclicBarrierMethod(); // 使用CyclicBarrier异步执行
 //    	flagSleep(); // 使用标志位实现
 //    	semaphoreMethd(); // 使用semaphore执行
+    	excutorServiceMethod(); // 使用线程池方式执行
     	
     	System.out.println("<<<<<主线程end");
     	System.out.println("一共使用时间："+ (System.currentTimeMillis()-start) + " ms");
@@ -34,7 +37,7 @@ public class ThreadWorkMain {
     /**
      * 使用CountDownLatch异步执行
      */
-    public static void countDownLatchMethod (){
+    public static void countDownLatchMethod(){
     	try {
 	    	CountDownLatch latch = new CountDownLatch(1);//任务数目
 	    	CompletableFuture.runAsync(new CountDownLatchTask(latch ,30));
@@ -48,7 +51,7 @@ public class ThreadWorkMain {
     /**
      * 使用CyclicBarrier异步执行
      */
-    public static void cyclicBarrierMethod (){
+    public static void cyclicBarrierMethod(){
     	CyclicBarrier barrier = new CyclicBarrier(2);//任务数目
     	CompletableFuture.runAsync(new CyclicBarrierTask(barrier,5));
     	try {
@@ -66,7 +69,7 @@ public class ThreadWorkMain {
     /**
      * 使用Semaphore异步执行
      */
-    public static void semaphoreMethd (){
+    public static void semaphoreMethd(){
     	Semaphore sem = new Semaphore(1); //任务数目
     	new SemaphoreTask(sem, 10).start();
     }
@@ -74,7 +77,7 @@ public class ThreadWorkMain {
     /**
      * 使用标志位异步执行
      */
-    public static void flagSleep (){
+    public static void flagSleep(){
     	SleepFlag ss = new SleepFlag(10);
     	Thread taskThread = new Thread(ss);
     	taskThread.start();
@@ -117,7 +120,7 @@ public class ThreadWorkMain {
     /**
      * 使用join方式
      */
-    private static void joinMethod () {
+    private static void joinMethod() {
     	JoinTask jt = new JoinTask();
     	Thread thread = new Thread(jt);
     	thread.start();
@@ -127,5 +130,13 @@ public class ThreadWorkMain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+    
+    /**
+     * 线程池方式
+     */
+    private static void excutorServiceMethod() {
+    	ExcutorServiceTask es = new ExcutorServiceTask();
+    	es.run();
     }
 }
