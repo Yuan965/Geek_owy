@@ -1,6 +1,7 @@
 
 package ouwy.Concurrency.HomeWork;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
@@ -20,11 +21,11 @@ public class ThreadWorkMain {
     public static void main(String[] args) throws Exception{
     	System.out.println("主线程begin>>>>>");
     	long start=System.currentTimeMillis();
-    	
+//    	joinMethod(); // 使用join方式异步执行
 //    	countDownLatchMethod(); // 使用CountDownLatch异步执行
-//    	cyclicBarrierMethod(); // 使用CyclicBarrier异步执行
+    	cyclicBarrierMethod(); // 使用CyclicBarrier异步执行
+//    	flagSleep(); // 使用标志位实现
 //    	semaphoreMethd(); // 使用semaphore执行
-    	flagSleep(); // 使用标志位实现
     	
     	System.out.println("<<<<<主线程end");
     	System.out.println("一共使用时间："+ (System.currentTimeMillis()-start) + " ms");
@@ -48,8 +49,17 @@ public class ThreadWorkMain {
      * 使用CyclicBarrier异步执行
      */
     public static void cyclicBarrierMethod (){
-    	CyclicBarrier barrier = new CyclicBarrier(1);//任务数目
+    	CyclicBarrier barrier = new CyclicBarrier(2);//任务数目
     	CompletableFuture.runAsync(new CyclicBarrierTask(barrier,5));
+    	try {
+			barrier.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BrokenBarrierException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	barrier.reset();
     }
     
@@ -102,5 +112,20 @@ public class ThreadWorkMain {
     			e.printStackTrace();
     		}
     	}
+    }
+    
+    /**
+     * 使用join方式
+     */
+    private static void joinMethod () {
+    	JoinTask jt = new JoinTask();
+    	Thread thread = new Thread(jt);
+    	thread.start();
+    	try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
