@@ -27,8 +27,8 @@ public class ThreadWorkMain {
 //    	countDownLatchMethod(); // 使用CountDownLatch异步执行
 //    	cyclicBarrierMethod(); // 使用CyclicBarrier异步执行
 //    	flagSleep(); // 使用标志位实现
-//    	semaphoreMethd(); // 使用semaphore执行
-    	excutorServiceMethod(); // 使用线程池方式执行
+    	semaphoreMethd(); // 使用semaphore执行
+//    	excutorServiceMethod(); // 使用线程池方式执行
     	
     	System.out.println("<<<<<主线程end");
     	System.out.println("一共使用时间："+ (System.currentTimeMillis()-start) + " ms");
@@ -71,7 +71,7 @@ public class ThreadWorkMain {
      */
     public static void semaphoreMethd(){
     	Semaphore sem = new Semaphore(1); //任务数目
-    	new SemaphoreTask(sem, 10).start();
+    	new SemaphoreTask(sem, 10).run();
     }
     
     /**
