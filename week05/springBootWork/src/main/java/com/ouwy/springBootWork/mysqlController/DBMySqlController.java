@@ -1,4 +1,4 @@
-package com.ouwy.mysqlController;
+package com.ouwy.springBootWork.mysqlController;
 
 import java.util.Iterator;
 import java.util.List;
