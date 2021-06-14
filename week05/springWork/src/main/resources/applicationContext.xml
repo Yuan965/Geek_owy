@@ -5,4 +5,23 @@
 
 	<!-- XML的Bean装配 -->
     <bean class="ouwy.springWork.Action" id="action"></bean>
+    
+    
+    <bean id="school" class="ouwy.springWork02.School"></bean>
+    <bean id="student123" class="ouwy.springWork02.Student">
+        <property name="id" value="123" />
+        <property name="name" value="KK123" />
+    </bean>
+    <bean id="student100" class="ouwy.springWork02.Student">
+        <property name="id" value="100" />
+        <property name="name" value="KK100" />
+    </bean>
+    <bean id="class1" class="ouwy.springWork02.Klass">
+        <property name="students">
+            <list>
+                <ref bean="student100" />
+                <ref bean="student123" />
+            </list>
+        </property>
+    </bean>
 </beans>
